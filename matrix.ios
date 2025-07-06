@@ -1,0 +1,419 @@
+---------
+S0
+---------
+
+enable
+configure terminal
+hostname S0
+
+
+vlan 10
+name GAME_DESING_DEPARTMENT
+exit
+
+vlan 20
+name GAME_DEVELOPMENT_DEPARTMENT
+exit
+
+vlan 30
+name MARKETING_DEPARTMENT
+exit
+
+vlan 40
+name DATA_CENTER_DEPARTMENT
+exit
+
+vlan 50
+name SALES_DEPARTMENT
+exit
+
+vlan 60
+name IT_DEPARTMENT
+exit
+
+
+interface range f0/1-10
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range f0/11-20
+switchport mode access
+switchport access vlan 20
+exit
+
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+
+
+
+---------
+S1
+---------
+enable
+configure terminal
+
+
+vlan 10
+name GAME_DESING_DEPARTMENT
+exit
+
+vlan 20
+name GAME_DEVELOPMENT_DEPARTMENT
+exit
+
+vlan 30
+name MARKETING_DEPARTMENT
+exit
+
+vlan 40
+name DATA_CENTER_DEPARTMENT
+exit
+
+vlan 50
+name SALES_DEPARTMENT
+exit
+
+vlan 60
+name IT_DEPARTMENT
+exit
+
+interface range f0/1-5
+switchport mode access
+switchport access vlan 40
+
+interface range f0/6-10
+switchport mode access
+switchport access vlan 60
+
+interface f0/11
+switchport mode access
+switchport access vlan 10
+
+interface f0/12
+switchport mode access
+switchport access vlan 20
+
+interface f0/13
+switchport mode access
+switchport access vlan 30
+
+interface f0/14
+switchport mode access
+switchport access vlan 50
+
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+---------
+S2
+---------
+
+
+enable
+configure terminal
+hostname S2
+
+vlan 10
+name GAME_DESING_DEPARTMENT
+exit
+
+vlan 20
+name GAME_DEVELOPMENT_DEPARTMENT
+exit
+
+vlan 30
+name MARKETING_DEPARTMENT
+exit
+
+vlan 40
+name DATA_CENTER_DEPARTMENT
+exit
+
+vlan 50
+name SALES_DEPARTMENT
+exit
+
+vlan 60
+name IT_DEPARTMENT
+exit
+
+enable 
+configure terminal
+
+interface range f0/1-10
+switchport mode access
+switchport access vlan 30
+
+interface range f0/11-20
+switchport mode access
+switchport access vlan 50
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+
+
+
+---------
+S3
+---------
+enable
+configure terminal
+
+hostname S3
+
+
+
+vlan 10
+name GAME_DESING_DEPARTMENT
+exit
+
+vlan 20
+name GAME_DEVELOPMENT_DEPARTMENT
+exit
+
+vlan 30
+name MARKETING_DEPARTMENT
+exit
+
+vlan 40
+name DATA_CENTER_DEPARTMENT
+exit
+
+vlan 50
+name SALES_DEPARTMENT
+exit
+
+vlan 60
+name IT_DEPARTMENT
+exit
+
+enable 
+configure terminal
+
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+interface g0/2
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+
+---------
+MLS
+---------
+
+enable
+configure terminal
+hostname MLS
+
+
+
+vlan 10
+name GAME_DESING_DEPARTMENT
+exit
+
+vlan 20
+name GAME_DEVELOPMENT_DEPARTMENT
+exit
+
+vlan 30
+name MARKETING_DEPARTMENT
+exit
+
+vlan 40
+name DATA_CENTER_DEPARTMENT
+exit
+
+vlan 50
+name SALES_DEPARTMENT
+exit
+
+vlan 60
+name IT_DEPARTMENT
+exit
+
+enable 
+configure terminal
+
+interface f0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+interface f0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+interface f0/3
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50,60
+exit
+
+interface f0/4
+no switchport
+ip address 10.0.0.162 255.255.255.252
+ip route 0.0.0.0 0.0.0.0 10.0.0.161
+no shutdown
+
+ip routing 
+interface vlan 10
+ip address 10.0.0.1 255.255.255.192
+no shutdown
+
+interface vlan 20
+ip address 10.0.0.65 255.255.255.224
+no shutdown
+
+interface vlan 30
+ip address 10.0.0.129 255.255.255.240
+no shutdown
+
+
+interface vlan 40
+ip address 10.0.0.145  255.255.255.248
+no shutdown
+
+interface vlan 50
+ip address  10.0.0.97 255.255.255.224
+no shutdown
+
+interface vlan 60
+ip address 10.0.0.153 255.255.255.248
+no shutdown
+
+
+interface vlan 10
+ ip helper-address 10.0.0.161
+
+interface vlan 20
+ ip helper-address 10.0.0.161
+
+interface vlan 30
+ ip helper-address 10.0.0.161
+
+interface vlan 40
+ ip helper-address 10.0.0.161
+
+interface vlan 50
+ ip helper-address 10.0.0.161
+
+interface vlan 60
+ ip helper-address 10.0.0.161
+------------
+R1
+------------
+
+enable
+configure terminal
+hostname R1
+
+
+interface g0/0/1
+ip address 10.0.0.161 255.255.255.252
+no shutdown
+
+
+
+
+
+
+ip route  10.0.0.0 255.255.255.192   10.0.0.162
+ip route 10.0.0.64 255.255.255.224    10.0.0.162
+ip route 10.0.0.96 255.255.255.224   10.0.0.162
+ip route 10.0.0.128 255.255.255.240  10.0.0.162
+ip route 10.0.0.144 255.255.255.248  10.0.0.162
+ip route 10.0.0.152  255.255.255.248  10.0.0.162
+ip route 10.0.0.160 255.255.255.252  10.0.0.162
+
+
+
+
+ip dhcp excluded-address 10.0.0.0 
+ip dhcp excluded-address 10.0.0.64 
+ip dhcp excluded-address 10.0.0.96 
+ip dhcp excluded-address 10.0.0.128 
+ip dhcp excluded-address 10.0.0.144 
+ip dhcp excluded-address 10.0.0.152  
+ip dhcp excluded-address 10.0.0.160 
+ip dhcp excluded-address 10.0.0.145
+
+
+
+ip dhcp pool GAME_DESING_DEPARTMENT_POOL
+network 10.0.0.0 255.255.255.192 
+default-router 10.0.0.1
+dns-server 10.0.0.146
+
+
+
+
+ip dhcp pool GAME_DEVELOPMENT_DEPARTMENT_POOL
+network 10.0.0.64 255.255.255.224
+default-router  10.0.0.65
+dns-server 10.0.0.146
+
+
+
+ip dhcp pool SALES_DEPARTMENT_POOL
+network 10.0.0.96 255.255.255.224
+default-router 10.0.0.97
+dns-server 10.0.0.146
+
+
+ip dhcp pool GAME_MARKETING_DEPARTMENT_POOL
+network 10.0.0.128 255.255.255.240
+default-router 10.0.0.129
+dns-server 10.0.0.146
+
+ip dhcp pool GAME_DATACENTER_DEPARTMENT_POOL
+network 10.0.0.144 255.255.255.248
+default-router 10.0.0.145
+dns-server 10.0.0.146
+
+ip dhcp pool GAME_IT_DEPARTMENT_POOL
+network 10.0.0.152 255.255.255.248
+default-router 10.0.0.153
+dns-server 10.0.0.146
+
+
+
+
+enable
+configure terminal
+
+ip domain-name jepsgames.com
+crypto key generate rsa
+1024
+ip ssh version 2
+username admin privilege 15 secret admin
+line vty 0 4
+transport input ssh
+login local
+exit
+
+-----------
+Clean
+
+
+enable
+erase startup-config
+delete vlan.dat
+reload

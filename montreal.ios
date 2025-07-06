@@ -1,0 +1,118 @@
+-----------------
+S1_Montreal
+-----------------
+
+enable
+configure terminal
+hostname S1_Montreal
+
+vlan 10
+name ADMIN_MONSTREAL_DEPARTMENT
+exit
+
+vlan 20 
+name RENDERING_DEPARTMENT
+exit
+
+vlan 30
+name CLIENT_SERVICE_DEPARTMENT
+exit
+
+interface range f0/1-4
+switchport mode access
+switchport access vlan 20
+exit
+
+interface range f0/5-10
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range f0/11-20
+switchport mode access
+switchport access vlan 30
+exit
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+exit
+
+
+-----------------
+S2_Montreal
+-----------------
+
+enable
+configure terminal
+hostname S2_Montreal
+
+vlan 10
+name ADMIN_MONSTREAL_DEPARTMENT
+exit
+
+vlan 20 
+name RENDERING_DEPARTMENT
+exit
+
+vlan 30
+name CLIENT_SERVICE_DEPARTMENT
+exit
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+exit
+
+interface g0/2
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+exit
+
+
+-----------------
+R1_Montreal
+-----------------
+enable
+configure terminal
+hostname R1_Montreal
+
+interface g0/0/0.10
+encapsulation dot1Q 10
+ip address 10.2.0.129 255.255.255.224
+no shutdown
+
+interface g0/0/0.20
+encapsulation dot1Q 20
+ip address 10.2.0.161 255.255.255.240 
+no shutdown
+
+interface g0/0/0.30
+encapsulation dot1Q 30
+ip address 10.2.0.1 255.255.255.128
+no shutdown
+
+
+interface g0/0/0
+no shutdown
+
+ip dhcp excluded-address 10.2.0.1
+ip dhcp excluded-address 10.2.0.161
+ip dhcp excluded-address 10.2.0.129
+
+ip dhcp pool ADMIN_MONSTREAL_DEPARTMENT_POOL
+network 10.2.0.128 255.255.255.224
+default-router 10.2.0.129
+dns-server 0.0.0.0
+
+
+ip dhcp pool RENDERING_DEPARTMENT_POOL
+network 10.2.0.160 255.255.255.240 
+default-router 10.2.0.161
+dns-server 0.0.0.0
+
+
+ip dhcp pool CLIENT_SERVICE_DEPARTMENT_POOL
+network 10.2.0.0 255.255.255.128
+default-router 10.2.0.1
+dns-server 0.0.0.0

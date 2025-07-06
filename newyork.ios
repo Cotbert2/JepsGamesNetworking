@@ -1,0 +1,124 @@
+---------------
+S1_NEW_YORK
+---------------
+
+enable
+configure terminal
+hostname S1_NEW_YORK
+
+vlan 10
+name ADMIN_NEW_YORK_DEPARTMENT
+exit
+
+
+vlan 20
+name PUBLISHMENT_DEPARTMENT
+exit
+
+vlan 30
+name WRITING_DEPARTMENT
+exit
+
+interface range f0/1-10
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range f0/11-18
+switchport mode access
+switchport access vlan 20
+exit
+
+
+interface range f0/19-24
+switchport mode access
+switchport access vlan 30
+exit
+
+
+interface g0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+exit
+
+
+---------------
+R1_NEW_YORK
+---------------
+enable
+configure terminal
+hostname R1_NEW_YORK
+
+interface g0/0/0.10
+encapsulation dot1Q 10
+ip address enable
+configure terminal
+hostname R1_NEW_YORK
+
+interface g0/0/0.10
+encapsulation dot1Q 10
+ip address 10.1.0.1 255.255.255.224
+no shutdown
+exit
+
+interface g0/0/0.20
+encapsulation dot1Q 20
+ip address 10.1.0.33 255.255.255.224
+no shutdown
+exit
+
+interface g0/0/0.30
+encapsulation dot1Q 30
+ip address 10.1.0.65 255.255.255.240
+no shutdown
+exit
+
+
+
+
+interface g0/0/0
+no shutdown
+exit 255.255.255.224
+no shutdown
+exit
+
+interface g0/0/0.20
+encapsulation dot1Q 20
+ip address 10.1.0.33 255.255.255.224
+no shutdown
+exit
+
+interface g0/0/0.30
+encapsulation dot1Q 30
+ip address 10.1.0.65 255.255.255.240
+no shutdown
+exit
+
+
+
+
+interface g0/0/0
+no shutdown
+exit
+
+
+ip dhcp excluded-address 10.1.0.1
+ip dhcp excluded-address 10.1.0.33
+ip dhcp excluded-address 10.1.0.65
+
+ip dhcp pool ADMIN_NEW_YORK_DEPARTMENT_POOL
+network  10.1.0.0 255.255.255.224
+default-router 10.1.0.1
+dns-server 0.0.0.0
+
+ip dhcp pool PUBLISHMENT_DEPARTMENT_POOL
+network  10.1.0.32 255.255.255.224
+default-router 10.1.0.33
+dns-server 0.0.0.0
+
+ip dhcp pool WRITING_DEPARTMENT_POOL
+network  10.1.0.64 255.255.255.240
+default-router 10.1.0.65
+dns-server 0.0.0.0
+
+
