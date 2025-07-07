@@ -443,3 +443,23 @@ enable
 erase startup-config
 delete vlan.dat
 reload
+
+
+
+
+
+
+------------
+All devices
+------------
+
+enable
+configure terminal
+enable secret admin
+banner motd @
+WARNING: Unauthorized access is prohibited. This hardware is property of JPS Games.
+All access attempts are monitored and logged.
+@
+end
+write memory
+
