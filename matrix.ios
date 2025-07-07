@@ -317,6 +317,26 @@ interface vlan 50
 
 interface vlan 60
  ip helper-address 10.0.0.161
+
+
+
+
+
+
+
+! Politica de seguridad hasta 8Mbps para trafico fuera de la matriz
+access-list 101 permit tcp any any eq 80
+
+class-map match-all LIMIT_HTTP
+ match access-group 101
+
+policy-map HTTP_POLICY
+ class LIMIT_HTTP
+  police 8000 1500 conform-action transmit exceed-action drop
+
+interface f0/4
+ service-policy input HTTP_POLICY
+
 ------------
 R1
 ------------
@@ -354,6 +374,12 @@ ip dhcp excluded-address 10.0.0.144
 ip dhcp excluded-address 10.0.0.152  
 ip dhcp excluded-address 10.0.0.160 
 ip dhcp excluded-address 10.0.0.145
+
+ip dhcp excluded-address 10.0.0.1 10.0.0.1
+ip dhcp excluded-address 10.0.0.65 10.0.0.65
+ip dhcp excluded-address 10.0.0.97 10.0.0.97
+ip dhcp excluded-address 10.0.0.129 10.0.0.129
+ip dhcp excluded-address 10.0.0.153 10.0.0.153
 
 
 
