@@ -103,16 +103,16 @@ ip dhcp excluded-address 10.2.0.129
 ip dhcp pool ADMIN_MONSTREAL_DEPARTMENT_POOL
 network 10.2.0.128 255.255.255.224
 default-router 10.2.0.129
-dns-server 0.0.0.0
+dns-server 10.0.0.146
 
 
 ip dhcp pool RENDERING_DEPARTMENT_POOL
 network 10.2.0.160 255.255.255.240 
 default-router 10.2.0.161
-dns-server 0.0.0.0
+dns-server 10.0.0.146
 
 
 ip dhcp pool CLIENT_SERVICE_DEPARTMENT_POOL
 network 10.2.0.0 255.255.255.128
 default-router 10.2.0.1
-dns-server 0.0.0.0
+dns-server 10.0.0.146
