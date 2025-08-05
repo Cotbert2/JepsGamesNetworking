@@ -42,6 +42,25 @@ switchport trunk allowed vlan 10,20,30
 exit
 
 
+
+
+
+interface vlan 10
+ip address 10.1.0.2 255.255.255.224
+no shutdown
+
+ip default-gateway 10.1.0.1
+
+ip domain-name jepsgames.com
+username admin secret admin
+crypto key generate rsa
+1024
+ip ssh version 2
+line vty 0 15
+login local
+transport input ssh
+exit
+
 ---------------
 R1_NEW_YORK
 ---------------
@@ -122,3 +141,15 @@ default-router 10.1.0.65
 dns-server 10.0.0.146
 
 
+enable
+configure terminal
+
+ip domain-name jepsgames.com
+crypto key generate rsa
+1024
+ip ssh version 2
+username admin privilege 15 secret admin
+line vty 0 4
+transport input ssh
+login local
+exit

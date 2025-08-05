@@ -10,7 +10,7 @@ vlan 10
 name ADMIN_MONSTREAL_DEPARTMENT
 exit
 
-vlan 20 
+vlan 20
 name RENDERING_DEPARTMENT
 exit
 
@@ -37,6 +37,24 @@ interface g0/1
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30
 exit
+
+
+interface vlan 10
+ip address 10.2.0.130 255.255.255.224
+no shutdown
+
+ip default-gateway 10.2.0.129
+
+ip domain-name jepsgames.com
+username admin secret admin
+crypto key generate rsa
+1024
+ip ssh version 2
+
+line vty 0 15
+login local
+transport input ssh
+
 
 
 -----------------
@@ -116,3 +134,17 @@ ip dhcp pool CLIENT_SERVICE_DEPARTMENT_POOL
 network 10.2.0.0 255.255.255.128
 default-router 10.2.0.1
 dns-server 10.0.0.146
+
+
+enable
+configure terminal
+
+ip domain-name jepsgames.com
+crypto key generate rsa
+1024
+ip ssh version 2
+username admin privilege 15 secret admin
+line vty 0 4
+transport input ssh
+login local
+exit
